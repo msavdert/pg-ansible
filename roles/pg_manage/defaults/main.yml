@@ -1,0 +1,74 @@
+---
+#-----------------------------------------------------------------
+# ALTER SYSTEM
+#-----------------------------------------------------------------
+# postgresql_alter_system_params: []
+#   max_connections: 150
+#   work_mem: '4MB'
+#   shared_buffers: '256MB'
+#   effective_cache_size: '1GB'
+
+#------------------------------------------------------------------
+# PG_HBA
+#------------------------------------------------------------------
+# postgresql_hba_entries: []
+#  - { type: local, database: all, user: postgres, auth_method: peer }
+#  - { type: local, database: all, user: all, auth_method: peer }
+#  - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: "{{ postgresql_auth_method }}"}
+
+#-----------------------------------------------------------------
+# USERS
+#-----------------------------------------------------------------
+# postgresql_users: []
+  # Example usage:
+  # postgresql_users:
+  #   - name: app_user
+  #     password: "secure_password"
+  #     role_attr_flags: "CREATEDB,NOSUPERUSER"
+  #     encrypted: true
+  #     state: present
+  #     comment: "Application user for myapp"
+  #     expires: "infinity"
+  #     conn_limit: 10
+  #   - name: readonly_user
+  #     password: "readonly_pass"
+  #     role_attr_flags: "NOSUPERUSER,NOCREATEDB"
+  #     encrypted: true
+  #     state: present
+  #     comment: "Read-only user for reporting"
+
+# postgresql_user_privs: []
+  # Example usage for database privileges:
+  # postgresql_user_privs:
+  #   - user: app_user
+  #     database: mydb
+  #     privileges:
+  #       - CONNECT
+  #       - CREATE
+  #       - TEMP
+  #   - user: readonly_user
+  #     database: mydb
+  #     privileges:
+  #       - CONNECT
+
+# postgresql_table_privs: []
+  # Example usage for table privileges:
+  # postgresql_table_privs:
+  #   - user: app_user
+  #     database: mydb
+  #     schema: public
+  #     tables: ALL_IN_SCHEMA
+  #     privileges: ALL
+  #   - user: readonly_user
+  #     database: mydb
+  #     schema: public
+  #     tables: "users,orders"
+  #     privileges: SELECT
+
+# postgresql_schema_privs: []
+  # Example usage for schema privileges:
+  # postgresql_schema_privs:
+  #   - user: app_user
+  #     database: mydb
+  #     schema: app_schema
+  #     privileges: CREATE

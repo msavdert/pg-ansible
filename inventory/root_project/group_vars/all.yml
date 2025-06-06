@@ -1,0 +1,149 @@
+---
+# PostgreSQL default variables
+#-----------------------------------------------------------------
+# INSTALLATION CONTROL
+#-----------------------------------------------------------------
+# Skip installation if PostgreSQL packages are already installed
+postgresql_skip_if_installed: true
+
+#-----------------------------------------------------------------
+# NODE_PACKAGE
+#-----------------------------------------------------------------
+proxy_env: # global proxy env when downloading packages
+  no_proxy: "localhost,127.0.0.1,10.0.0.0/8,192.168.0.0/16,*.pigsty,*.aliyun.com,mirrors.*,*.myqcloud.com,*.tsinghua.edu.cn"
+  # http_proxy:  # set your proxy here: e.g http://user:pass@proxy.xxx.com
+  # https_proxy: # set your proxy here: e.g http://user:pass@proxy.xxx.com
+  # all_proxy:   # set your proxy here: e.g http://user:pass@proxy.xxx.com
+node_epel_repo: false
+node_disable_selinux: false
+node_disable_firewall: false
+node_packages: []
+node_packages_default: # used according to , if  not set
+  dnf:
+    - sudo,cronie,python3-psycopg2,glibc-langpack-en
+  apt:
+    - sudo,cron,python3-psycopg2,libpq-dev
+
+#-----------------------------------------------------------------
+# NODE_TIME
+#-----------------------------------------------------------------
+node_timezone: "" # setup node timezone, empty string to skip
+node_ntp_enabled: true # enable chronyd time sync service?
+node_ntp_servers: # ntp servers in
+  - pool pool.ntp.org iburst
+node_crontab_overwrite: true # overwrite or append to ?
+node_crontab: [] # crontab entries in
+
+#-----------------------------------------------------------------
+# OSTGRESQL_INSTALL
+#-----------------------------------------------------------------
+postgresql_version: "16"
+postgresql_port: 5432
+postgresql_user: "postgres"
+postgresql_data_checksums: true
+postgresql_debian_bin_directory: /usr/lib/postgresql/{{ postgresql_version }}/bin
+postgresql_redhat_bin_directory: /usr/pgsql-{{ postgresql_version }}/bin
+postgresql_redhat_data_dir: "/var/lib/pgsql/{{ postgresql_version }}/data"
+postgresql_debian_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
+postgresql_service_state: started
+postgresql_service_enabled: true
+postgresql_unix_socket_directories:
+  - /var/run/postgresql
+postgresql_daemon:
+  dnf:
+    - postgresql-{{ postgresql_version }}
+  apt:
+    - postgresql
+postgresql_packages:
+  dnf:
+    - postgresql{{ postgresql_version }}-server
+    - postgresql{{ postgresql_version }}-contrib
+  apt:
+    - postgresql-{{ postgresql_version }}
+    - postgresql-contrib-{{ postgresql_version }}
+
+#-----------------------------------------------------------------
+# POSTGRESQL_MANAGE
+#-----------------------------------------------------------------
+#
+# ALTER SYSTEM
+#
+# postgresql_alter_system_params: []
+#   max_connections: 150
+#   work_mem: '4MB'
+#   shared_buffers: '256MB'
+#   effective_cache_size: '1GB'
+#
+# PG_HBA
+#
+# postgresql_hba_entries: []
+#  - { type: local, database: all, user: postgres, auth_method: peer }
+#  - { type: local, database: all, user: all, auth_method: peer }
+#  - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: "{{ postgresql_auth_method }}"}
+#
+# USERS
+#
+# postgresql_users: []
+  # Example usage:
+  # postgresql_users:
+  #   - name: app_user
+  #     password: "secure_password"
+  #     role_attr_flags: "CREATEDB,NOSUPERUSER"
+  #     encrypted: true
+  #     state: present
+  #     comment: "Application user for myapp"
+  #     expires: "infinity"
+  #     conn_limit: 10
+  #   - name: readonly_user
+  #     password: "readonly_pass"
+  #     role_attr_flags: "NOSUPERUSER,NOCREATEDB"
+  #     encrypted: true
+  #     state: present
+  #     comment: "Read-only user for reporting"
+
+# postgresql_user_privs: []
+  # Example usage for database privileges:
+  # postgresql_user_privs:
+  #   - user: app_user
+  #     database: mydb
+  #     privileges:
+  #       - CONNECT
+  #       - CREATE
+  #       - TEMP
+  #   - user: readonly_user
+  #     database: mydb
+  #     privileges:
+  #       - CONNECT
+
+# postgresql_table_privs: []
+  # Example usage for table privileges:
+  # postgresql_table_privs:
+  #   - user: app_user
+  #     database: mydb
+  #     schema: public
+  #     tables: ALL_IN_SCHEMA
+  #     privileges: ALL
+  #   - user: readonly_user
+  #     database: mydb
+  #     schema: public
+  #     tables: "users,orders"
+  #     privileges: SELECT
+
+# postgresql_schema_privs: []
+  # Example usage for schema privileges:
+  # postgresql_schema_privs:
+  #   - user: app_user
+  #     database: mydb
+  #     schema: app_schema
+  #     privileges: CREATE
+
+#-----------------------------------------------------------------
+# Global variables for all PostgreSQL servers
+#-----------------------------------------------------------------
+ansible_user: "ansible"
+ansible_ssh_private_key_file: "{{ ansible_config_file | dirname }}/files/{{ inventory_file | dirname | basename }}/{{ inventory_file | dirname | basename }}"
+ansible_connection: ssh
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+# Project specific - UPDATE THESE FOR NEW PROJECTS
+project_name: "abc"  # Change this for new projects

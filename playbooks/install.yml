@@ -1,0 +1,9 @@
+---
+#!/usr/bin/env ansible-playbook
+- name: PostgreSQL
+  become: yes
+  hosts: all
+  gather_facts: yes
+
+  roles:
+    - pg_install

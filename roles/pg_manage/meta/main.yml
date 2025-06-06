@@ -1,0 +1,43 @@
+---
+galaxy_info:
+  role_name: postgresql
+  author: "Melih Savdert"
+  description: "PostgreSQL 16 and 17 installation role for Debian/Ubuntu and RedHat/CentOS"
+  company: "Custom Role"
+  license: "MIT"
+  min_ansible_version: 2.10
+  
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal    # 20.04
+        - jammy    # 22.04
+        - noble    # 24.04
+    - name: Debian
+      versions:
+        - bullseye # 11
+        - bookworm # 12
+    - name: EL
+      versions:
+        - 8
+        - 9
+    - name: RedHat
+      versions:
+        - 8
+        - 9
+    - name: CentOS
+      versions:
+        - 8
+        - 9
+  
+  galaxy_tags:
+    - database
+    - postgresql
+    - postgres
+    - sql
+    - debian
+    - ubuntu
+    - redhat
+    - centos
+
+dependencies: []

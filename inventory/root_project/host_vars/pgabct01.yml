@@ -1,0 +1,5 @@
+---
+# Test PostgreSQL server specific variables
+
+# PostgreSQL version override for test server (use PostgreSQL 17)
+# postgresql_version: 17

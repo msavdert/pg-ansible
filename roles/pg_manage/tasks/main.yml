@@ -1,0 +1,35 @@
+---
+#--------------------------------------------------------------#
+# Config                                       [pg_alter_system]
+#--------------------------------------------------------------#
+- name: PostgreSQL Config | Apply ALTER SYSTEM parameters
+  include_tasks: alter_system.yml
+  tags: [pg_manage, pg_alter_system]
+
+#--------------------------------------------------------------#
+# Restart                                           [pg_restart]
+#--------------------------------------------------------------#
+- name: PostgreSQL Config | Check restart requirements
+  include_tasks: restart.yml
+  tags: [pg_manage, pg_restart]
+
+#--------------------------------------------------------------#
+# HBA                                                   [pg_hba]
+#--------------------------------------------------------------#
+- name: PostgreSQL HBA | Configure host-based authentication
+  include_tasks: pg_hba.yml
+  tags: [pg_manage, pg_hba]
+
+#--------------------------------------------------------------#
+# Users                                              [pg_users]
+#--------------------------------------------------------------#
+- name: PostgreSQL Users | Create users and manage privileges
+  include_tasks: users.yml
+  tags: [pg_manage, pg_users]
+
+#--------------------------------------------------------------#
+# Ping                                                 [pg_ping]
+#--------------------------------------------------------------#
+#- name: PostgreSQL Ping | Check server availability
+#  include_tasks: ping.yml
+#  tags: [pg_manage, pg_ping]

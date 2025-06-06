@@ -1,0 +1,26 @@
+---
+# Configure PostgreSQL
+
+- name: Configure PostgreSQL settings
+  lineinfile:
+    path: "{{ postgresql_config_dir }}/postgresql.conf"
+    regexp: "^#?{{ item.key }}.*"
+    line: "{{ item.key }} = '{{ item.value }}'"
+    backup: yes
+  with_dict: "{{ postgresql_config }}"
+  notify: restart postgresql
+
+- name: Generate pg_hba.conf
+  template:
+    src: pg_hba.conf.j2
+    dest: "{{ postgresql_config_dir }}/pg_hba.conf"
+    owner: "{{ postgresql_user }}"
+    group: "{{ postgresql_group }}"
+    mode: '0600'
+    backup: yes
+  notify: restart postgresql
+
+- name: Ensure PostgreSQL is running
+  systemd:
+    name: "{{ postgresql_service_name }}"
+    state: started

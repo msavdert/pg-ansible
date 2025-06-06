@@ -1,0 +1,9 @@
+---
+#!/usr/bin/env ansible-playbook
+- name: PostgreSQL Management Playbook
+  become: yes
+  hosts: all
+  gather_facts: yes
+
+  roles:
+    - pg_manage
