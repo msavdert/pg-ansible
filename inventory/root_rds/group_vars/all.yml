@@ -1,0 +1,34 @@
+---
+#-----------------------------------------------------------------
+# Default variables for pg_rds_manage role
+#-----------------------------------------------------------------
+
+# PostgreSQL connection parameters
+pg_database: postgres
+pg_user: postgres
+pg_password: mysecretpassword
+
+# SSL/TLS configuration
+pg_ssl_mode: prefer
+pg_ca_cert: ""
+pg_ssl_enabled: false
+
+#-----------------------------------------------------------------
+# DATABASE CONFIGURATION
+#-----------------------------------------------------------------
+# Databases to ensure exist.
+postgresql_databases: []
+# - name: exampledb # required; the rest are optional
+#   lc_collate: # defaults to 'en_US.UTF-8'
+#   lc_ctype: # defaults to 'en_US.UTF-8'
+#   encoding: # defaults to 'UTF-8'
+#   template: # defaults to 'template0'
+#   login_host: # defaults to 'localhost'
+#   login_port: # defaults to not set
+#   login_password: # defaults to not set
+#   login_user: # defaults to '{{ postgresql_user }}'
+#   owner: # defaults to postgresql_user
+#   state: # defaults to 'present'
+#   comment: # defaults to not set
+#   target: # defaults to not set
+#   target_opts: # defaults to not set

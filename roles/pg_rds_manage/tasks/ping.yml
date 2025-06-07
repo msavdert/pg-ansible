@@ -1,0 +1,39 @@
+---
+# PostgreSQL ping and connectivity test
+
+- name: >
+    Ping PostgreSQL server using configurable credentials and SSL
+    registering the return values into the result variable for future use
+  tags: [pg_ping]
+  community.postgresql.postgresql_ping:
+    login_db: "{{ pg_database }}"
+    login_host: "{{ ansible_host }}"
+    login_port: "{{ postgresql_port }}"
+    login_user: "{{ pg_user }}"
+    login_password: "{{ pg_password }}"
+    ca_cert: "{{ pg_ca_cert | default(omit) }}"
+    ssl_mode: "{{ pg_ssl_mode }}"
+  register: result
+
+# You can use the registered result with another task
+#- name: This task should be executed only if the server is available
+#  tags: [pg_ping]
+#  debug:
+#    msg: "PostgreSQL server is available and responding"
+#  when: result.is_available == true
+
+- name: Display PostgreSQL Information
+  tags: [pg_ping]
+  ansible.builtin.debug:
+    var: pg_info
+  vars:
+    pg_info:
+      Available: "{{ result.is_available }}"
+      Server Version: "{{ result.server_version.full }}"
+      Connection Error Message: "{{ result.conn_err_msg }}"
+      Hostname: "{{ inventory_hostname }}"
+      IP Address: "{{ ansible_host }}"
+      Port: "{{ postgresql_port }}"
+      Database: "{{ pg_database }}"
+      User: "{{ pg_user }}"
+      SSL Mode: "{{ pg_ssl_mode }}"

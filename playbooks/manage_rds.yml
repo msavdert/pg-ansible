@@ -1,0 +1,7 @@
+---
+#!/usr/bin/env ansible-playbook
+- name: RDS for PostgreSQL Management Playbook
+  hosts: all
+
+  roles:
+    - pg_rds_manage

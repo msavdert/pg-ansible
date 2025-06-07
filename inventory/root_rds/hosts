@@ -1,0 +1,23 @@
+---
+# PostgreSQL Project Template Inventory
+
+prod:
+  hosts:
+    pgabcp01:
+      ansible_host: 172.32.2.21
+      ansible_port: 22
+#      ansible_become: false
+    pgabcp02:
+      ansible_host: 172.32.2.21
+      ansible_port: 23
+
+test:
+  hosts:
+    pgabct01:
+      ansible_host: 172.32.2.23
+      ansible_port: 22
+
+postgresql:
+  children:
+    prod:
+    test:

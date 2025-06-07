@@ -1,0 +1,13 @@
+---
+#--------------------------------------------------------------#
+# Ping                                                 [pg_ping]
+#--------------------------------------------------------------#
+- name: PostgreSQL Ping | Check server availability
+  include_tasks: ping.yml
+  tags: [pg_manage, pg_ping]
+#--------------------------------------------------------------#
+# Database                                               [pg_db]
+#--------------------------------------------------------------#
+- name: PostgreSQL Database | Ensure databases exist
+  include_tasks: db.yml
+  tags: [pg_manage, pg_db]
