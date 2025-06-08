@@ -1,36 +1,37 @@
 ---
 # PostgreSQL ping and connectivity test
 
-- name: >
-    Ping PostgreSQL server using non-default credentials and SSL
-    registering the return values into the result variable for future use
+- name: Ping PostgreSQL Server
   tags: [pg_ping]
   community.postgresql.postgresql_ping:
-    login_db: postgres
-    login_port: 54312
-    login_host: 127.0.0.1
-    login_user: dba_melih
-    login_password: secure_password
- #   ca_cert: /root/root.crt
- #   ssl_mode: verify-full
+    login_host: "{{ ansible_host }}"
+    login_db: "{{ vault_pg_database }}"
+    login_port: "{{ vault_pg_port }}"
+    login_user: "{{ vault_pg_user }}"
+    login_password: "{{ vault_pg_password }}"
+    ca_cert: "{{ pg_ca_cert | default(omit) }}"
+    ssl_mode: "{{ pg_ssl_mode }}"
   register: result
-  # If you need to fail when the server is not available,
-  # uncomment the following line:
-  # failed_when: not result.is_available
 
 # You can use the registered result with another task
-- name: This task should be executed only if the server is available
-  tags: [pg_ping]
-  debug:
-    msg: "PostgreSQL server is available and responding"
-  when: result.is_available == true
+#- name: This task should be executed only if the server is available
+#  tags: [pg_ping]
+#  debug:
+#    msg: "PostgreSQL server is available and responding"
+#  when: result.is_available == true
 
-- name: Display PostgreSQL server information
+- name: Display PostgreSQL Information
   tags: [pg_ping]
-  debug:
-    msg: |
-      PostgreSQL Server Status:
-      - Available: {{ result.is_available }}
-      - Server Version: {{ result.server_version | default('N/A') }}
-      - Connection Error Message: {{ result.conn_err_msg | default('N/A') }}
-  when: result is defined
+  ansible.builtin.debug:
+    var: pg_info
+  vars:
+    pg_info:
+      Available: "{{ result.is_available }}"
+      Server Version: "{{ result.server_version.full }}"
+      Connection Error Message: "{{ result.conn_err_msg }}"
+      Hostname: "{{ inventory_hostname }}"
+      IP Address: "{{ ansible_host }}"
+      Port: "{{ vault_pg_port }}"
+      Database: "{{ vault_pg_database }}"
+      User: "{{ vault_pg_user }}"
+      SSL Mode: "{{ pg_ssl_mode }}"
