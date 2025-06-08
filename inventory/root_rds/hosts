@@ -3,19 +3,24 @@
 
 prod:
   hosts:
-    pgabcp01:
-      ansible_host: 172.32.2.21
-      ansible_port: 22
-#      ansible_become: false
-    pgabcp02:
-      ansible_host: 172.32.2.21
-      ansible_port: 23
+    pgrdsp01:
+      ansible_host: 172.28.5.61
+      ansible_connection: local
+    pgrdsp02:
+      ansible_host: 172.28.5.62
+      ansible_connection: local
 
 test:
   hosts:
-    pgabct01:
-      ansible_host: 172.32.2.23
-      ansible_port: 22
+    pgrdst01:
+      ansible_host: 172.28.5.71
+      ansible_connection: local
+    pgrdst02:
+      ansible_host: 172.28.5.72
+      ansible_connection: local
+    pgrdst03:
+      ansible_host: 172.28.5.73
+      ansible_connection: local
 
 postgresql:
   children:

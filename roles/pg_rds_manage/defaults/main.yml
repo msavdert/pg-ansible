@@ -3,11 +3,6 @@
 # Default variables for pg_rds_manage role
 #-----------------------------------------------------------------
 
-# PostgreSQL connection parameters
-pg_database: postgres
-pg_user: postgres
-pg_password: mysecretpassword
-
 # SSL/TLS configuration
 pg_ssl_mode: prefer
 pg_ca_cert: ""

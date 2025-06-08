@@ -1,16 +1,14 @@
 ---
 # PostgreSQL ping and connectivity test
 
-- name: >
-    Ping PostgreSQL server using configurable credentials and SSL
-    registering the return values into the result variable for future use
+- name: Ping PostgreSQL Server
   tags: [pg_ping]
   community.postgresql.postgresql_ping:
-    login_db: "{{ pg_database }}"
     login_host: "{{ ansible_host }}"
-    login_port: "{{ postgresql_port }}"
-    login_user: "{{ pg_user }}"
-    login_password: "{{ pg_password }}"
+    login_db: "{{ vault_pg_database }}"
+    login_port: "{{ vault_pg_port }}"
+    login_user: "{{ vault_pg_user }}"
+    login_password: "{{ vault_pg_password }}"
     ca_cert: "{{ pg_ca_cert | default(omit) }}"
     ssl_mode: "{{ pg_ssl_mode }}"
   register: result
@@ -33,7 +31,7 @@
       Connection Error Message: "{{ result.conn_err_msg }}"
       Hostname: "{{ inventory_hostname }}"
       IP Address: "{{ ansible_host }}"
-      Port: "{{ postgresql_port }}"
-      Database: "{{ pg_database }}"
-      User: "{{ pg_user }}"
+      Port: "{{ vault_pg_port }}"
+      Database: "{{ vault_pg_database }}"
+      User: "{{ vault_pg_user }}"
       SSL Mode: "{{ pg_ssl_mode }}"
